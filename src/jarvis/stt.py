@@ -1,17 +1,18 @@
+# src/jarvis/stt.py
 import speech_recognition as sr
 
 def listen():
-    recognizer = sr.Recognizer()
-
-    # If multiple mics exist, pass device_index (e.g., 1, 2, etc.)
-    with sr.Microphone(device_index=None) as source:  
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
         print("🎤 Listening...")
-        recognizer.adjust_for_ambient_noise(source, duration=1)  
-        audio = recognizer.listen(source)
-
+        r.adjust_for_ambient_noise(source, duration=0.5)
+        try:
+            audio = r.listen(source, timeout=3, phrase_time_limit=5)
+        except sr.WaitTimeoutError:
+            return ""
     try:
-        return recognizer.recognize_google(audio)
+        return r.recognize_google(audio)
     except sr.UnknownValueError:
-        return "Sorry, I could not understand."
+        return ""
     except sr.RequestError:
-        return "Sorry, speech service is unavailable."
+        return ""
