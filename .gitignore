@@ -11,9 +11,10 @@ venv/
 poetry.lock
 
 # IDE / Editor junk
-.vscode/
 .idea/
 
 # OS files
 .DS_Store
 Thumbs.db
+config.bat
+node_modules
